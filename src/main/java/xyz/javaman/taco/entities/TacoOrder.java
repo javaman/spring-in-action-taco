@@ -6,13 +6,21 @@ import org.hibernate.validator.constraints.CreditCardNumber;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
 public class TacoOrder {
 
-    @NotBlank(message = "Delivary name is required")
+    private static final long serialVersionUID = 1L;
+
+    private Long id;
+
+    private LocalDateTime placedAt;
+
+    @NotBlank(message = "Delivery name is required")
     private String deliveryName;
 
     @NotBlank(message = "Street is required")
@@ -22,6 +30,7 @@ public class TacoOrder {
     private String deliveryCity;
 
     @NotBlank(message = "State is required")
+    @Size(min = 2, max = 2, message = "State must be exact to characters")
     private String deliveryState;
 
     @NotBlank(message = "Zip code is required")
