@@ -11,6 +11,7 @@ import xyz.javaman.taco.entities.Taco;
 import xyz.javaman.taco.entities.TacoOrder;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -51,7 +52,10 @@ public class DesignTacoController {
         if (errors.hasErrors()) {
             return "design";
         }
-        tacoOrder.addTaco(taco);
+        if (tacoOrder.getTacos() == null) {
+            tacoOrder.setTacos(new ArrayList<>());
+        }
+        tacoOrder.getTacos().add(taco);
         log.info("Processing taco: {}", taco);
         return "redirect:/orders/current";
     }

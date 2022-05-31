@@ -2,18 +2,30 @@ package xyz.javaman.taco.entities;
 
 
 import lombok.Data;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
+import org.springframework.data.domain.Persistable;
 
 import java.util.Arrays;
 import java.util.List;
 
 @Data
-public class Ingredient {
+public class Ingredient implements Persistable<String> {
 
+    @Id
     private final String id;
 
     private final String name;
 
     private final Type type;
+
+    @Transient
+    private transient boolean isNew;
+
+    @Override
+    public boolean isNew() {
+        return this.isNew;
+    }
 
     public enum Type {
         WRAP, PROTEIN, VEGGIES, CHEESE, SAUCE

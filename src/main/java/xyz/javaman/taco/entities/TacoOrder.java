@@ -2,23 +2,26 @@ package xyz.javaman.taco.entities;
 
 import lombok.Data;
 import org.hibernate.validator.constraints.CreditCardNumber;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Table;
 
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
+@Table("TACO_ORDER")
 public class TacoOrder {
 
     private static final long serialVersionUID = 1L;
 
+    @Id
     private Long id;
 
-    private LocalDateTime placedAt;
+    private LocalDateTime placedAt = LocalDateTime.now();
 
     @NotBlank(message = "Delivery name is required")
     private String deliveryName;
@@ -46,9 +49,6 @@ public class TacoOrder {
     @Digits(integer = 3, fraction = 0, message = "Invalid CVV")
     private String ccCVV;
 
-    private List<Taco> tacos = new ArrayList<>();
+    private List<Taco> tacos;
 
-    public void addTaco(Taco taco) {
-        this.tacos.add(taco);
-    }
 }
