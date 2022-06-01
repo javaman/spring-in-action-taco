@@ -2,23 +2,24 @@ package xyz.javaman.taco.entities;
 
 import lombok.Data;
 import org.hibernate.validator.constraints.CreditCardNumber;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.relational.core.mapping.Table;
 
+import javax.persistence.*;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
-@Table("TACO_ORDER")
+@Entity
 public class TacoOrder {
 
     private static final long serialVersionUID = 1L;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private LocalDateTime placedAt = LocalDateTime.now();
@@ -49,6 +50,7 @@ public class TacoOrder {
     @Digits(integer = 3, fraction = 0, message = "Invalid CVV")
     private String ccCVV;
 
-    private List<Taco> tacos;
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Taco> tacos = new ArrayList<>();
 
 }

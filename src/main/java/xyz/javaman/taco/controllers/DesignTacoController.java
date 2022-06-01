@@ -14,6 +14,8 @@ import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
+import static java.util.stream.StreamSupport.stream;
+
 @Slf4j
 @Controller
 @RequestMapping("/design")
@@ -26,8 +28,7 @@ public class DesignTacoController {
     @ModelAttribute
     public void addIngredientsToModel(Model model) {
 
-        model.addAllAttributes(ingredientRepository.findAll()
-                .stream()
+        model.addAllAttributes(stream(ingredientRepository.findAll().spliterator(), false)
                 .collect(Collectors.groupingBy(item -> item.getType().toString().toLowerCase()))
         );
     }
