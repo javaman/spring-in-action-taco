@@ -7,8 +7,10 @@ import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import xyz.javaman.taco.data.IngredientRepository;
+import xyz.javaman.taco.data.TacoRepository;
 import xyz.javaman.taco.entities.Taco;
 import xyz.javaman.taco.entities.TacoOrder;
+import xyz.javaman.taco.entities.TacoUDT;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
@@ -24,6 +26,8 @@ import static java.util.stream.StreamSupport.stream;
 public class DesignTacoController {
 
     private final IngredientRepository ingredientRepository;
+
+    private final TacoRepository tacoRepository;
 
     @ModelAttribute
     public void addIngredientsToModel(Model model) {
@@ -56,7 +60,8 @@ public class DesignTacoController {
         if (tacoOrder.getTacos() == null) {
             tacoOrder.setTacos(new ArrayList<>());
         }
-        tacoOrder.getTacos().add(taco);
+        tacoOrder.getTacos().add(new TacoUDT(taco.getName(), taco.getIngredients()));
+        tacoRepository.save(taco);
         log.info("Processing taco: {}", taco);
         return "redirect:/orders/current";
     }

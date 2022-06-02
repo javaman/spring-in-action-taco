@@ -1,0 +1,19 @@
+version: "3.3"
+networks:
+  cassandra-net:
+services:
+  cassandra:
+    image: cassandra:latest
+    networks:
+      - cassandra-net
+    ports:
+      - 9042:9042
+  cassandra-init:
+    image: cassandra:latest
+    networks:
+      - cassandra-net
+    depends_on:
+      - cassandra
+    command: ["bash", "-c", "until cqlsh cassandra -e  \"create keyspace tacocloud with replication={'class':'SimpleStrategy', 'replication_factor':1} and durable_writes=true;\"; do\n  echo retrying\n done"]
+
+
