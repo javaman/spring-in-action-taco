@@ -1,9 +1,10 @@
 package xyz.javaman.taco.entities;
 
 import lombok.Data;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 
-import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
@@ -12,14 +13,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-@Entity
+@Document
 public class Taco implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private String id;
 
     private LocalDateTime createdAt = LocalDateTime.now();
 
@@ -29,6 +29,5 @@ public class Taco implements Serializable {
 
     @NotNull
     @Size(min=1, message = "You must choose at least 1 ingredient")
-    @ManyToMany
     private List<Ingredient> ingredients = new ArrayList<>();
 }
